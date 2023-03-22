@@ -1,9 +1,40 @@
-console.log("Hello World1")
-
 function getRandomInt(max)
 {
     return Math.floor(Math.random() * max);
 }
+
+function chooseImg(value) {
+    if (value === 0) {
+        return 'images/rock.png'
+    } else if (value === 1) {
+        return 'images/paper.png';
+    } else {
+        return 'images/scissors.png';
+    }
+}
+
+
+const selecs = [document.querySelector('#rock'),
+                document.querySelector('#paper'),
+                document.querySelector('#scissors')];
+
+
+function choose(e) {
+    const you = document.querySelector('#you>img');
+    const computer = document.querySelector('#computer>img');
+
+    if (you && computer) {
+        const img = this.getElementsByTagName('img');
+        if (img.length > 0) {
+            you.setAttribute('src', img[0].getAttribute('src'));
+        }
+        
+        computer.setAttribute('src', chooseImg(getRandomInt(3)));
+    }
+}
+
+selecs.forEach(img => img.addEventListener('click', choose));
+
 
 function getComputerChoice()
 {
@@ -102,4 +133,4 @@ function game()
     }
 }
 
-game()
+// game()
