@@ -63,4 +63,9 @@ body {
 
 .result {
     align-self: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
 }

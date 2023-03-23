@@ -13,124 +13,71 @@ function chooseImg(value) {
     }
 }
 
-
-const selecs = [document.querySelector('#rock'),
-                document.querySelector('#paper'),
-                document.querySelector('#scissors')];
-
+const selecs = [document.querySelector('#rock>img'),
+                document.querySelector('#paper>img'),
+                document.querySelector('#scissors>img')];
+/*
+    0: rock
+    1: paper
+    2: scissors
+    @return: 1 you win
+            -1 computer win
+             0 draw
+*/
+function checkWin(youChoose, computerChoose) {
+    if (youChoose === computerChoose) {
+        return 0;
+    } else if (youChoose + computerChoose === 2) {
+        if (youChoose === 0) {
+            return 1;
+        } else {
+            return -1;
+        }
+    } else {
+        return youChoose < computerChoose ? -1 : 1;
+    }
+}
 
 function choose(e) {
     const you = document.querySelector('#you>img');
     const computer = document.querySelector('#computer>img');
 
     if (you && computer) {
-        const img = this.getElementsByTagName('img');
-        if (img.length > 0) {
-            you.setAttribute('src', img[0].getAttribute('src'));
+        const youChoose = parseInt(this.getAttribute('value'));
+        const computerChoose = getRandomInt(3);
+
+        you.setAttribute('src', chooseImg(youChoose));
+        computer.setAttribute('src', chooseImg(computerChoose));
+
+        const win = checkWin(youChoose, computerChoose);
+
+        console.log(win);
+
+        const noti = document.querySelector('.result>h3');
+        console.log(noti);
+        const youScore = document.querySelector('#you').getElementsByTagName('p');
+        console.log(youScore);
+        const computerScore = document.querySelector('#computer').getElementsByTagName('p');
+        console.log(computerScore);
+
+        if (win === 0) {
+            noti.innerHTML = 'You and Computer are Draw';
+        } else if (win === 1) {
+            noti.innerHTML = 'You win';
+            youScore[1].innerHTML = parseInt(youScore[1].innerHTML) + 1;
+
+            if (parseInt(youScore[1].innerHTML) === 5) {
+                document.querySelector('.result>h1').innerHTML = 'Game over. YOU ARE THE WINNER';
+            }
+        } else {
+            noti.innerHTML = 'Computer win';
+            computerScore[1].innerHTML = parseInt(computerScore[1].innerHTML) + 1;
+
+            if (parseInt(computerScore[1].innerHTML) === 5) {
+                document.querySelector('.result>h1').innerHTML = 'Game over. COMPUTER IS THE WINNER';
+            }
         }
-        
-        computer.setAttribute('src', chooseImg(getRandomInt(3)));
     }
 }
 
 selecs.forEach(img => img.addEventListener('click', choose));
-
-
-function getComputerChoice()
-{
-    const ranInt = getRandomInt(3);
-
-    if (ranInt == 0)
-    {
-        return "Rock";
-    } else if (ranInt == 1)
-    {
-        return "Paper";
-    } else
-    {
-        return "Scissors";
-    }
-}
-
-function playRound(playerSelection, computerSelection)
-{
-    const player = playerSelection.toLowerCase();
-    const computer = computerSelection.toLowerCase();
-
-    console.log(`You chose ${player}`);
-    console.log(`Computer chose ${computer}`);
-
-    if (player == "rock")
-    {
-        if (computer == "paper")
-        {
-            return "Computer Win! Paper beats Rock";
-        } else if (computer == 'scissors')
-        {
-            return "You Win! Rock beats Scissors";
-        } else {
-            return "Equal";
-        }
-    } else if (player == 'paper')
-    {
-        if (computer == "rock")
-        {
-            return "You Win! Paper beats Rock";
-        } else if (computer == "paper")
-        {
-            return "Equal";
-        } else
-        {
-            return "Computer Win! Scissors beats Paper";
-        }
-    } else
-    {
-        if (computer == "rock")
-        {
-            return "Computer Win! Rock beats Scissors";
-        } else if (computer == "paper")
-        {
-            return "You Win! Scissors beats Paper";
-        } else
-        {
-            return "Equal";
-        }
-    }
-}
-
-function game()
-{
-    const nameOfPlayer = prompt('What is your name?');
-    let playerWin = 0;
-    let computerWin = 0;
-
-    for (let i = 0; i < 5; i++)
-    {
-        const player = prompt("input your choice");
-        const computer = getComputerChoice();
-
-        const result = playRound(player, computer);
-
-        console.log(result);
-
-        if (result.search('You') != -1)
-        {
-            playerWin++;
-        } else if (result.search('Computer') != -1)
-        {
-            computerWin++;
-        }
-    }
-
-    if (playerWin > computerWin)
-    {
-        console.log(`${nameOfPlayer} is winner`);
-    } else if (playerWin < computerWin)
-    {
-        console.log('Computer is winner');
-    } else {
-        console.log('All are equal');
-    }
-}
-
-// game()
